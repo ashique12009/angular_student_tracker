@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Add new student</h1>      
+
+    <form #studentForm="ngForm" (ngSubmit)="storeStudent(studentForm)">            
+        <div class="form-group">
+            <label for="exampleInputEmail1">Student ID</label>
+            <input type="text" class="form-control" name="registrationID" value="" ngModel required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input type="text" class="form-control" name="name" value="" ngModel required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Phone</label>
+            <input type="text" class="form-control" name="phone" value="" ngModel required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">DOB</label>
+            <input id="dateOfBirth" name="dob" type="date" class="form-control" ngModel />
+        </div>
+        <div class="form-group">
+            <input type="button" name="biometricCapture" value="Biometric Capture" onclick="captureBiometric()">
+            <input type="hidden" name="templateXML" id="templateXML" value="">
+        </div>          
+        
+        <button type="submit" name="register" class="btn btn-primary">Submit</button>
+        <a routerLink="" class="btn btn-outline-info ml5">Home</a>
+    </form>
+
+    <label id="serverResult"></label>
+</div>

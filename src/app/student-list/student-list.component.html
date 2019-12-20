@@ -1,0 +1,60 @@
+<div class="container">
+    <h1>Welcome to student track application</h1>
+    <div class="row">
+        <div class="col-4">
+            <form action="" method="POST">
+                <div class="input-group mb-3">
+                <input type="text" placeholder="Reg.ID" name="search" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <div class="input-group-append">
+                            <button class="input-group-text" id="basic-addon2" type="submit"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-8">
+            <form id="identifyForm" action="" method="POST">                    
+                <div class="mt-10">
+                    <input type="button" name="biometricCapture" value="Biometric Capture" onclick="captureBiometric()">
+                    <input type="hidden" name="templateXML" id="templateXML" value="">
+                    <input type="submit" name="identify" value="identify">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a routerLink="/create-student" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Add New</a>
+        </div>
+    </div>
+    <label id="serverResult"></label>
+</div>
+
+<div class="container">
+    <div *ngIf="studentList.length > 0">
+        <h3>Student List</h3>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Student ID (Biometric ID)</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tr *ngFor="let item of studentList; let i = index">
+                <td>{{ item.registrationID }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.phone }}</td>
+                <td>{{ item.dob }}</td>
+                <td><a routerLink="/edit-student/{{item.ID}}" class="btn btn-primary btn-sm">Edit</a> | <a href="#" (click)="deleteStudent(item.registrationID)" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="studentList.length == 0">
+        <p>No record found!</p>
+    </div>
+    
+</div>
