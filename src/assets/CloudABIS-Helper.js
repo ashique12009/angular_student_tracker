@@ -45,7 +45,7 @@ function CaptureResult(captureResponse) {
 
 		if (captureResponse.TemplateData != null && captureResponse.TemplateData.length > 0) {
             // store this captured TemplateData in a hidden field or variable for Identification call
-            templateData = PHPEncodeHTML(captureResponse.TemplateData);
+            templateData = (captureResponse.TemplateData);
             document.getElementById('templateXML').value = templateData; 
 		}
 		else if (engineName == 'IRIS01' && captureResponse.BioImageData != null && captureResponse.BioImageData.length > 0) {

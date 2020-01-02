@@ -37,6 +37,7 @@ export class StudentService {
 
     // insert updated array to local storage
     this.storage.set(STORAGE_KEY, currentStudentList);
+    //SDK Call
   }
 
   /**

@@ -7,7 +7,14 @@ import { StudentService } from "../services/student-service.service";
   styleUrls: ['./create-student.component.css']
 })
 export class CreateStudentComponent implements OnInit {
+  registrationIDText = '';
+  nameText = '';
+  phoneText = '';
+  dobText = '';
+  templateXMLText = '';
 
+  formData = {}
+  
   constructor(private studentService: StudentService) { }
 
   ngOnInit() {
@@ -16,11 +23,19 @@ export class CreateStudentComponent implements OnInit {
   /**
    * storeStudent
    */
-  public storeStudent(form) 
+  public storeStudent(e) 
   {
-    //console.log(form.value);
-    //console.log(this.studentService.getStudentList());
-    this.studentService.storeStudent(form.value);
+    // debugger
+    this.templateXMLText = e.target.templateXML.value || '';
+    if ( this.templateXMLText != '' ) {
+      this.formData = {
+        registrationID: this.registrationIDText,
+        name: this.nameText,
+        phone: this.phoneText,
+        dob: this.dobText,
+        templateXML: this.templateXMLText
+      }
+      this.studentService.storeStudent(this.formData);
+    }
   }
-
 }
