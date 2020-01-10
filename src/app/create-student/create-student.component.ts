@@ -35,7 +35,8 @@ export class CreateStudentComponent implements OnInit {
         dob: this.dobText,
         templateXML: this.templateXMLText
       }
-      this.studentService.storeStudent(this.formData);
+      console.log(this.formData);
+      //this.studentService.storeStudent(this.formData);
     }
   }
 }
