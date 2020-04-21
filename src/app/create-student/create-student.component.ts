@@ -1,5 +1,7 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from "../services/student-service.service";
+import { ConfigService } from "../services/config-service.service";
 
 @Component({
   selector: 'app-create-student',
@@ -13,11 +15,20 @@ export class CreateStudentComponent implements OnInit {
   dobText = '';
   templateXMLText = '';
 
+  access_token = '';
+
   formData = {}
+
+  errorMsg = false;
   
-  constructor(private studentService: StudentService) { }
+  constructor(
+    private studentService: StudentService, 
+    private configService: ConfigService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.access_token = this.studentService.getStorageToken();
   }
 
   /**
@@ -25,8 +36,8 @@ export class CreateStudentComponent implements OnInit {
    */
   public storeStudent(e) 
   {
-    // debugger
     this.templateXMLText = e.target.templateXML.value || '';
+
     if ( this.templateXMLText != '' ) {
       this.formData = {
         registrationID: this.registrationIDText,
@@ -35,8 +46,12 @@ export class CreateStudentComponent implements OnInit {
         dob: this.dobText,
         templateXML: this.templateXMLText
       }
-      console.log(this.formData);
-      //this.studentService.storeStudent(this.formData);
+      
+      this.studentService.storeStudent(this.formData);
+      this.router.navigate(['/student-list']);
+    } 
+    else {
+      this.errorMsg = true;
     }
   }
 }

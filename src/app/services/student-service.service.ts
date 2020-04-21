@@ -1,28 +1,62 @@
 import { Inject, Injectable } from '@angular/core';
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 
+import { ConfigService } from "../services/config-service.service";
+import { AshiqueAngularSdkService } from 'ashique-angular-sdk';
+
 const STORAGE_KEY = 'cloudabis-students';
+const TOKEN_STORAGE_KEY = 'cloudabis-token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
 
-  public studentList;
+  private config;
 
-  constructor(@Inject(SESSION_STORAGE) private storage: StorageService) { }
+  constructor(
+    @Inject(SESSION_STORAGE) private storage: StorageService, 
+    private cloudABISSDKService: AshiqueAngularSdkService, 
+    private configService: ConfigService,
+  ) { }
 
   /**
-   * getStudentList
+   * get access token from sdk
    */
-  public getStudentList() 
+  public getAccessToken()
   {
-    this.studentList = this.storage.get(STORAGE_KEY) || [];
-    return this.studentList;
+    // Get config object that hold your api settings value
+    this.config = this.configService.constructConfig();
+
+    return this.cloudABISSDKService.getToken(this.config);
   }
 
   /**
-   * storeStudent
+   * get access token from local storage
+   */
+  public getStorageToken() 
+  {
+    return this.storage.get(TOKEN_STORAGE_KEY) || '';
+  }
+
+  /**
+   * store token to local storage
+   */
+  public storeToken(tokenObject) 
+  {
+    this.storage.set(TOKEN_STORAGE_KEY, tokenObject.access_token);
+  }
+
+  /**
+   * get Student List
+   */
+  public getStudentList() 
+  {
+    return this.storage.get(STORAGE_KEY) || [];
+  }
+
+  /**
+   * store Student to local storage
    */
   public storeStudent(formValue) 
   {
@@ -37,11 +71,34 @@ export class StudentService {
 
     // insert updated array to local storage
     this.storage.set(STORAGE_KEY, currentStudentList);
+    
     //SDK Call
+    let getToken = this.getStorageToken();
+    let CloudABISBiometricRequest = {
+      config: this.config,
+      token: getToken,
+      registrationID: formValue.registrationID,
+      templateXML: JSON.stringify(formValue.templateXML)
+    };
+    this.cloudABISSDKService.Register(CloudABISBiometricRequest);
   }
 
   /**
-   * removeStudent
+   * check user is registered or not
+   */
+  public isRegister(registrationID)
+  {
+    let getToken = this.getStorageToken();
+    let CloudABISBiometricRequest = {
+      config: this.config,
+      token: getToken,
+      registrationID: registrationID
+    };
+    return this.cloudABISSDKService.IsRegister(CloudABISBiometricRequest);
+  }
+
+  /**
+   * remove Student
    */
   public removeStudent(registrationID) 
   {

@@ -19,12 +19,15 @@
             <input id="dateOfBirth" name="dob" type="date" class="form-control" [(ngModel)]="dobText" #dob="ngModel" />
         </div>
         <div class="form-group">
-            <input type="button" name="biometricCapture" value="Biometric Capture" onclick="captureBiometric()">
-            <input type="hidden" name="templateXML" id="templateXML" value="">
+            <input type="button" name="biometricCapture" class="btn btn-success" value="Biometric Capture" onclick="captureBiometric()">
+            <input type="hidden" name="templateXML" id="templateXML" [(ngModel)]="templateXMLText" #templateXML="ngModel" />
         </div>
         
         <button type="submit" name="register" class="btn btn-primary">Submit</button>
         <a routerLink="" class="btn btn-outline-info ml5">Home</a>
     </form>
     <label id="serverResult"></label>
+    <div class="alert alert-danger" *ngIf="errorMsg">
+        <strong>Error!</strong> Please connect fingerprint device, you need to capture your fingerprint first.
+    </div>
 </div>

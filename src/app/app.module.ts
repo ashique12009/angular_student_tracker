@@ -8,6 +8,8 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { CreateStudentComponent } from './create-student/create-student.component';
 
 import { StudentService } from "./services/student-service.service";
+import { ConfigService } from "./services/config-service.service";
+import { AshiqueAngularSdkService } from 'ashique-angular-sdk';
 
 const appRoutes: Routes = [
   { path: '', component: StudentListComponent },
@@ -29,7 +31,9 @@ const appRoutes: Routes = [
     )
   ],
   providers: [
-    StudentService
+    StudentService,
+    ConfigService,
+    AshiqueAngularSdkService
   ],
   bootstrap: [AppComponent]
 })

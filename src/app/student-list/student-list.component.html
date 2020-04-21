@@ -4,21 +4,23 @@
         <div class="col-4">
             <form action="" method="POST">
                 <div class="input-group mb-3">
-                <input type="text" placeholder="Reg.ID" name="search" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <input type="text" [(ngModel)]="regID" placeholder="Reg.ID" name="search" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <div class="input-group-append">
-                            <button class="input-group-text" id="basic-addon2" type="submit"><i class="fa fa-search"></i></button>
+                            <button class="input-group-text" id="basic-addon2" (click)="isRegister()"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </div>
             </form>
+            <div class="alert alert-success" role="alert" *ngIf="showSuccess">{{regID}} ID Found!</div>
+            <div class="alert alert-danger" role="alert" *ngIf="showError">{{regID}} ID not Found!</div>
         </div>
         <div class="col-8">
             <form id="identifyForm" action="" method="POST">                    
                 <div class="mt-10">
-                    <input type="button" name="biometricCapture" value="Biometric Capture" onclick="captureBiometric()">
+                    <input type="button" name="biometricCapture" class="btn btn-primary" value="Biometric Capture" onclick="captureBiometric()">
                     <input type="hidden" name="templateXML" id="templateXML" value="">
-                    <input type="submit" name="identify" value="identify">
+                    <input type="submit" name="identify" class="btn btn-success" value="identify">
                 </div>
             </form>
         </div>
