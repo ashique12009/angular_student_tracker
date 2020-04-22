@@ -12,15 +12,15 @@
                     </div>
                 </div>
             </form>
-            <div class="alert alert-success" role="alert" *ngIf="showSuccess">{{regID}} ID Found!</div>
-            <div class="alert alert-danger" role="alert" *ngIf="showError">{{regID}} ID not Found!</div>
+            <div class="alert alert-success" role="alert" *ngIf="showSuccess">{{noticeMessage}}</div>
+            <div class="alert alert-danger" role="alert" *ngIf="showError">{{noticeMessage}}</div>
         </div>
         <div class="col-8">
-            <form id="identifyForm" action="" method="POST">                    
+            <form #studentForm="ngForm" (ngSubmit)="identifyNow($event)">                    
                 <div class="mt-10">
                     <input type="button" name="biometricCapture" class="btn btn-primary" value="Biometric Capture" onclick="captureBiometric()">
-                    <input type="hidden" name="templateXML" id="templateXML" value="">
-                    <input type="submit" name="identify" class="btn btn-success" value="identify">
+                    <input type="hidden" name="templateXML" id="templateXML" [(ngModel)]="templateXMLText" #templateXML="ngModel" />
+                    &nbsp;&nbsp;&nbsp;<button type="submit" name="register" class="btn btn-success">Identify</button>
                 </div>
             </form>
         </div>

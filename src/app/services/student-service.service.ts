@@ -98,6 +98,21 @@ export class StudentService {
   }
 
   /**
+   * identify Student
+   */
+  public identifyStudent(templateXML) 
+  {
+    //SDK Call
+    let getToken = this.getStorageToken();
+    let CloudABISBiometricRequest = {
+      config: this.config,
+      token: getToken,
+      templateXML: JSON.stringify(templateXML)
+    };
+    return this.cloudABISSDKService.Identify(CloudABISBiometricRequest);
+  }
+
+  /**
    * remove Student
    */
   public removeStudent(registrationID) 
