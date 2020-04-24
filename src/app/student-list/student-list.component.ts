@@ -44,26 +44,24 @@ export class StudentListComponent implements OnInit {
   public isRegister()
   {
     let returnResponse = this.studentService.isRegister(this.regID);
-    returnResponse.then((data) => 
-      {
-        this.responseResult = data;
-        if ( this.responseResult.OperationResult == "NO" ) {
-          this.showError = true;
-          this.showSuccess = false;
-          this.noticeMessage = "ID not found!";
-        }
-        else if ( this.responseResult.OperationResult == "YES" ) {
-          this.showSuccess = true;
-          this.showError = false;
-          this.noticeMessage = "ID found!";
-        }
-        else if ( this.responseResult.OperationResult == "INVALID_REQUEST" ) {
-          this.showSuccess = false;
-          this.showError = true;
-          this.noticeMessage = "Ivalid request";
-        }
-      } 
-    );
+    returnResponse.then((data) => {
+      this.responseResult = data;
+      if ( this.responseResult.OperationResult == "NO" ) {
+        this.showError = true;
+        this.showSuccess = false;
+        this.noticeMessage = "ID not found!";
+      }
+      else if ( this.responseResult.OperationResult == "YES" ) {
+        this.showSuccess = true;
+        this.showError = false;
+        this.noticeMessage = "ID found!";
+      }
+      else if ( this.responseResult.OperationResult == "INVALID_REQUEST" ) {
+        this.showSuccess = false;
+        this.showError = true;
+        this.noticeMessage = "Ivalid request";
+      }
+    });
   }
 
   /**
@@ -74,26 +72,24 @@ export class StudentListComponent implements OnInit {
     let templateXML = e.target.templateXML.value || '';
     if ( templateXML != '' ) {
       let returnResponse = this.studentService.identifyStudent(templateXML);
-      returnResponse.then((data) => 
-        {
-          this.responseResult = data;
-          if ( this.responseResult.OperationResult == "NO_MATCH_FOUND" ) {
-            this.showError = true;
-            this.showSuccess = false;
-            this.noticeMessage = "Did not Match!";
-          }
-          else if ( this.responseResult.OperationResult == "MATCH_FOUND" ) {
-            this.showSuccess = true;
-            this.showError = false;
-            this.noticeMessage = this.responseResult.DetailResult[0].ID + " Match found!";
-          }
-          else if ( this.responseResult.OperationResult == "INVALID_ISO_TEMPLATE" ) {
-            this.showSuccess = false;
-            this.showError = true;
-            this.noticeMessage = "Ivalid ISO template";
-          }
+      returnResponse.then((data) => {
+        this.responseResult = data;
+        if ( this.responseResult.OperationResult == "NO_MATCH_FOUND" ) {
+          this.showError = true;
+          this.showSuccess = false;
+          this.noticeMessage = "Did not Match!";
         }
-      );
+        else if ( this.responseResult.OperationResult == "MATCH_FOUND" ) {
+          this.showSuccess = true;
+          this.showError = false;
+          this.noticeMessage = this.responseResult.DetailResult[0].ID + " Match found!";
+        }
+        else if ( this.responseResult.OperationResult == "INVALID_ISO_TEMPLATE" ) {
+          this.showSuccess = false;
+          this.showError = true;
+          this.noticeMessage = "Ivalid ISO template";
+        }
+      });
     }
     else {
       this.showSuccess = false;
@@ -107,8 +103,25 @@ export class StudentListComponent implements OnInit {
    */
   public deleteStudent(registerID) 
   {
-    this.studentService.removeStudent(registerID);
-    this.router.navigate(['/student-list']);
+    let returnResponse = this.studentService.removeStudent(registerID);
+    returnResponse.then((data) => {
+      this.responseResult = data;
+      if ( this.responseResult.OperationResult == "NO" ) {
+        this.showError = true;
+        this.showSuccess = false;
+        this.noticeMessage = "ID not found!";
+      }
+      else if ( this.responseResult.OperationResult == "DS" ) {
+        this.showSuccess = true;
+        this.showError = false;
+        this.noticeMessage = "Record deleted succesfully!";
+      }
+    });
+    
+    //this.router.navigate(['/student-list']);
+    // Get student list
+    this.studentList = this.studentService.getStudentList();
+    return this.studentList;
   }
 
 }

@@ -80,7 +80,7 @@ export class StudentService {
       registrationID: formValue.registrationID,
       templateXML: JSON.stringify(formValue.templateXML)
     };
-    this.cloudABISSDKService.Register(CloudABISBiometricRequest);
+    return this.cloudABISSDKService.Register(CloudABISBiometricRequest);
   }
 
   /**
@@ -133,6 +133,15 @@ export class StudentService {
       this.storage.remove(STORAGE_KEY);
       // insert updated array to local storage
       this.storage.set(STORAGE_KEY, currentStudentList);
+
+      //API CALL
+      let getToken = this.getStorageToken();
+      let CloudABISBiometricRequest = {
+        config: this.config,
+        token: getToken,
+        registrationID: registrationID
+      };
+      return this.cloudABISSDKService.RemoveID(CloudABISBiometricRequest);
     }
   }
 }

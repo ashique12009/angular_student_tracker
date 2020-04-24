@@ -14,12 +14,13 @@ export class CreateStudentComponent implements OnInit {
   phoneText = '';
   dobText = '';
   templateXMLText = '';
-
   access_token = '';
-
   formData = {}
-
   errorMsg = false;
+  responseResult: any;
+  showSuccess: boolean = false;
+  showError: boolean = false;
+  noticeMessage: string = "";
   
   constructor(
     private studentService: StudentService, 
@@ -47,8 +48,20 @@ export class CreateStudentComponent implements OnInit {
         templateXML: this.templateXMLText
       }
       
-      this.studentService.storeStudent(this.formData);
-      this.router.navigate(['/student-list']);
+      let returnResponse = this.studentService.storeStudent(this.formData);
+      returnResponse.then((data) => {
+        this.responseResult = data;
+        if ( this.responseResult.OperationResult == "SUCCESS" || this.responseResult.OperationResult == "YES" ) {
+          this.showError = false;
+          this.showSuccess = true;
+          this.noticeMessage = "Insert operation done successfully!";
+        }
+        else if ( this.responseResult.OperationResult == "MATHC_FOUND" ) {
+          this.showError = true;
+          this.showSuccess = false;
+          this.noticeMessage = "Mathc found! Please put another biometric data.";
+        }
+      });
     } 
     else {
       this.errorMsg = true;

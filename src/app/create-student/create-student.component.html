@@ -30,4 +30,10 @@
     <div class="alert alert-danger" *ngIf="errorMsg">
         <strong>Error!</strong> Please connect fingerprint device, you need to capture your fingerprint first.
     </div>
+    <div class="alert alert-danger" *ngIf="showError">
+        <strong>Error!</strong> {{noticeMessage}}
+    </div>
+    <div class="alert alert-success" *ngIf="showSuccess">
+        <strong>Suucess!</strong> {{noticeMessage}}
+    </div>
 </div>
